@@ -1,96 +1,41 @@
 'use strict';
 
-const connection = require('../configuration/connection.js');
+const db = require('../configuration/connection');
 
-function printQuestionMarks(num) {
-  const arr = [];
-
-  for (let i = 0; i < num; ++i) {
-    arr.push('?');
-  }
-  return arr.toString();
-}
-
-// Helper function to convert object key/value pairs to SQL syntax
-function objToSql(ob) {
-  const arr = [];
-
-  // loop through the keys and push the key/value as a string int arr
-  for (const key in ob) {
-    const value = ob[key];
-    if (Object.hasOwnProperty.call(ob, key)) {
-      if (typeof value === 'string' && value.indexOf(' ') >= 0) {
-        value = "'" + value + "'";
-      }
-      arr.push(key + '=' + value);
-    }
-  }
-  return arr.toString();
-}
-
-// Object for all our SQL statement functions.
 const orm = {
-  all: function (tableInput, cb) {
-    let queryString = 'SELECT * FROM ' + tableInput + ';';
-    connection.query(queryString, (err, result) => {
-      if (err) {
-        throw err;
-      }
-      cb(result);
-    });
-  },
-  create: function (table, cols, vals, cb) {
-    let queryString = 'INSERT INTO ' + table;
-
-    queryString += ' (';
-    queryString += cols.toString();
-    queryString += ') ';
-    queryString += 'VALUES (';
-    queryString += printQuestionMarks(vals.length);
-    queryString += ') ';
-
-    console.log(queryString);
-
-    connection.query(queryString, vals, (err, result) => {
-      if (err) {
-        throw err;
-      }
-
-      cb(result);
-    });
-  },
-  // An example of objColVals would be {name: panther, sleepy: true}
-  update: function (table, objColVals, condition, cb) {
-    let queryString = 'UPDATE ' + table;
-
-    queryString += ' SET ';
-    queryString += objToSql(objColVals);
-    queryString += ' WHERE ';
-    queryString += condition;
-
-    console.log(queryString);
-    connection.query(queryString, (err, result) => {
-      if (err) {
-        throw err;
-      }
-
-      cb(result);
-    });
-  },
-  delete: function (table, condition, cb) {
-    let queryString = 'DELETE FROM ' + table;
-    queryString += ' WHERE ';
-    queryString += condition;
-
-    connection.query(queryString, (err, result) => {
-      if (err) {
-        throw err;
-      }
-
-      cb(result);
-    });
-  }
+    selectAll: function (tableInput, cb) {
+        const queryString = 'SELECT * FROM ??';
+        db.query(queryString, tableInput, (err, result) => {
+            if (err) throw err;
+            cb(result);
+        });
+    },
+    insertOne: function (tableInput, newValue, cb) {
+        const queryString = `INSERT INTO ??(name) VALUES (?)`;
+        db.query(queryString, [tableInput, newValue], (err, result) => {
+            if (err) throw err;
+            console.log(`${result.affectedRows} burgers modified`);
+            console.log(`Inserted ${newValue}!!!`);
+            cb(result);
+        });
+    },
+    updateDevour: function (tableInput, burger_id, cb) {
+        const queryString = `UPDATE ?? SET devoured = TRUE WHERE id = ?;`;
+        db.query(queryString, [tableInput, burger_id], (err, result) => {
+            if (err) throw err;
+            console.log(`${result.affectedRows} burgers modified`);
+            console.log(`burger id ${burger_id} has been devoured!`);
+            cb(result);
+        });
+    },
+    deleteOne: function (tableInput, burger_id, cb) {
+        const queryString = `DELETE FROM ?? WHERE id = ?;`;
+        db.query(queryString, [tableInput, burger_id], (err, result) => {
+            if (err) throw err;
+            console.log(`${result.affectedRows} burgers modified`);
+            cb(result);
+        });
+    }
 };
 
-// Export the orm object for the model (cat.js).
 module.exports = orm;

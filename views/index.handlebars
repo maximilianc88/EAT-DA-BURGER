@@ -1,29 +1,45 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-8">
-<h3 class="text-center my-4" id="title" style="color:#e2571a">Eat-Da-Burger</h3>
-</div>
-<div class="col-md-2"></div>
-</div>
-<div class="row">
-  <div class="col-md-4"></div>
-  <div class="col-md-4 text-center">
-<form class="create-form">
+<div class="container m-0 p-0">
+    <div class="row d-flex flex-column align-content-center">
+        <h1 class="mb-3"> Eat The Burger!</h1>
+        <div class="create-form-title p-2 mb-3">
+        <img class="d-flex align-self-center m-2"src="https://pixabay.com/get/52e9d0464c51ac14f6da8c7dda29317a1c3ddde7554c704c7d2679d4944ec359_1280.png" alt="burger" height="150" width="150">
+                <form class="text-center">
+                    <div class="form-group">
+                         <input type="text" id="burger-name" name="name">
+                    </div>
+                            <button type="submit" class="btn btn-danger" id="add-burg-btn">Add Burger</button>
+                </form>
+                </div>
+    </div>
 
-  <div class="form-group mb-1">
-    <input type="text" id="ca" name="name" class="form-control-lg p-5">
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-</div>
-  <div class="col-md-4"></div>
-</div>
-<div class="row">
-  <div class="col-md-3"></div>
-  <div class="col-md-6 text-center mt-3">
-    <p>Enter a burger you want to eat, then click the "Submit" button</p>
-  </div>
-  <div class="col-md-3"></div>
-</div>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-3 d-flex flex-column align-items-center available-burg-col">
+            <h4>Available Burgers</h4>
+            <ul class="p-0">
+                {{#each burgersArr}}
+                {{#unless devoured}}
+                {{> burgers/burger-block}}
+                {{/unless}}
+                {{/each}}
+            </ul>
+        </div>
+     
+<div class="col-md-2"></div>
+        <div class="col-md-3 d-flex flex-column align-items-center devoured-burg-col">
+            <h4>Devoured Burgers</h4>
+            <ol class="p-0">
+                {{#each burgersArr}}  
+                {{#if devoured}} 
+                {{> burgers/burger-block}}
+                {{/if}}
+                {{/each}}
+            </ol>
+        </div>
+
+<div class="col-md-2"></div>
+    </div>
+     <div class="row footer">
+         <div class="col-md-12 m-3"></div>
+     </div>
 </div>

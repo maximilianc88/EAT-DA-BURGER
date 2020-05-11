@@ -16,7 +16,7 @@ $(function () {
         });
     });
 
-    $('.create-form').on('submit', function (event) {
+    $('.toonchee').on('submit', function (event) {
         // event.preventDefault();
 
         const newBurger = {

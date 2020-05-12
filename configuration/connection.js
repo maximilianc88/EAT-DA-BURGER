@@ -10,10 +10,12 @@ const connection = {
     database: 'burger_db'
 };
 
+let db;
+
 if (process.env.JAWSDB_URL) {
-     mysql.createConnection(process.env.JAWSDB_URL);
+     db = mysql.createConnection(process.env.JAWSDB_URL);
 } else {
-    mysql.createConnection(connection);
+    db = mysql.createConnection(connection);
 };
 
 db.connect(err => {

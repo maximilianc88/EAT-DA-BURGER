@@ -18,11 +18,6 @@ const burger = {
             cb(result);
         });
     },
-    updatePoop: function (burgerId, cb) {
-        orm.updatePoop('burger', burgerId, (result) => {
-            cb(result);
-        });
-    },
     deleteOne: function (burgerId, cb) {
         orm.deleteOne('burger', burgerId, (result) => {
             cb(result);
